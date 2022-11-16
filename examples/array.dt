@@ -1,0 +1,24 @@
+$g_array :: 100 i16s
+
+fn main() do
+  i :: i16
+  i = 0
+  a :: 3 i16s
+
+  a[i] = i
+  put(a[i])
+  i = i + 1
+
+  a[i] = i
+  put(a[i])
+  i = i + 1
+
+  a[i] = i
+  put(a[i])
+  i = i + 1
+
+  put("global")
+
+  $g_array[50] = 123
+  put($g_array[50])
+end

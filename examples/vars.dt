@@ -1,0 +1,25 @@
+$x :: i16
+$y :: i8
+$z :: i16
+
+fn main() do
+  x :: i8
+  y :: i16
+  z :: i8
+
+  x = 1
+  y = 2
+  z = 3
+
+  put(x)
+  put(y)
+  put(z)
+
+  $x = 4
+  $y = 5
+  $z = 6
+
+  put($x)
+  put($y)
+  put($z)
+end

@@ -1,0 +1,133 @@
+-- Game Of Life
+-- Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+-- Any live cell with two or three live neighbours lives on to the next generation.
+-- Any live cell with more than three live neighbours dies, as if by overpopulation.
+-- Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+
+sprite: square
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+
+-- TODO: assign whole array
+$board :: 100 i16s
+$new_board :: 100 i16s
+
+$timer :: i16
+
+fn draw_square(dix: i16) do
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/x, dix%10 * 10)
+  send(.Screen/y, dix/10 * 10)
+
+  send(.Screen/sprite, 67)
+  return
+end
+
+fn erase_square(eix: i16) do
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/x, eix%10 * 10)
+  send(.Screen/y, eix/10 * 10)
+
+  send(.Screen/sprite, 64)
+  return
+end
+
+fn apply_rules() do
+  i :: i16
+  neighbours :: i16
+
+  i = 0
+  while i < 100 do
+  --   neighbours = 0
+  --   if i > 0 && $board[i - 1] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i < 100 && $board[i + 1] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i - 10 > 0 && $board[i - 10] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i - 11 > 0 && $board[i - 11] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i - 9 > 0 && $board[i - 9] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i + 10 < 100 && $board[i + 10] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i + 11 < 100 && $board[i + 11] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if i + 9 < 100 && $board[i + 9] == 1 do
+  --     neighbours = neighbours + 1
+  --   end
+  --   if neighbours < 2 do
+  --     -- death due to underpopulation
+  --     $new_board[i] = 0
+  --   elseif $board[i] == 1 && (neighbours == 2 || neighbours == 3) do
+  --     -- continued life due to normal population
+  --     $new_board[i] = 1
+  --   elseif $board[i] == 0 && neighbours == 3 do
+  --     -- new life due to perfect popuation
+  --     $new_board[i] = 1
+  --   else
+  --     $new_board[i] = 0
+  --   end
+    i = i + 1
+  end
+
+  -- i = 0
+  -- -- TODO: whole array copy
+  -- while i < 100 do
+  --   $board[i] = $new_board[i]
+  --   $new_board[i] = 0
+  --   i = i + 1
+  -- end
+  return
+end
+
+-- fn cell(x: i16, y: i16) do
+--   index :: i16
+--   index = (y%10)*10 + x%10
+--   return : $board[index]
+-- end
+
+fn on_frame() do
+  if $timer == 0 do
+    apply_rules()
+    -- $timer = 30
+  end
+  -- $timer = $timer - 1
+  -- s :: i16
+  -- s = 0
+  -- while s < 100 do
+  --   if $board[s] == 1 do
+  --     draw_square(s)
+  --   else
+  --     erase_square(s)
+  --   end
+  --   s = s + 1
+  -- end
+end
+
+fn main() do
+  theme #202 #c1c #ece #905
+
+  -- glider
+  $board[13] = 1
+  $board[24] = 1
+  $board[32] = 1
+  $board[33] = 1
+  $board[34] = 1
+
+  $timer = 30
+  send(.Screen/vector, :on_frame)
+end

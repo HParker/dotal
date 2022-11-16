@@ -1,0 +1,12 @@
+fn frame() do
+  x :: i16
+  x = 1
+  if x do
+    put("wow")
+  end
+end
+
+fn main() do
+  theme #202 #c1c #ece #905
+  send(.Screen/vector, :frame)
+end

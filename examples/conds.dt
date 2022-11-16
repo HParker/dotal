@@ -1,0 +1,64 @@
+fn main() do
+  print("- test only if: ")
+  if 1 == 1 do
+    put("pass")
+  end
+
+  print("- test only if false: ")
+  if 0 == 1 do
+    put("fail: shouldn't end up in false single if")
+  end
+  put("pass")
+
+  print("- test single else true path: ")
+  if 1 == 1 do
+    put("pass")
+  else
+    put("fail: fell into else case")
+  end
+
+  print("- test single else false path: ")
+  if 0 == 1 do
+    put("fail: fell into else case")
+  else
+    put("pass")
+  end
+
+  print("- test else: ")
+  if 0 == 1 do
+    put("fail: fell into true path")
+  elseif 0 == 1 do
+    put("fail: fell into elseif")
+  else
+    put("pass")
+  end
+
+  print("- test elseif: ")
+  if 0 == 1 do
+    put("fail: fell into true path")
+  elseif 1 == 1 do
+    put("pass")
+  else
+    put("fail: fell into else")
+  end
+
+  print("- test else: ")
+  if 1 == 1 do
+    put("pass")
+  elseif 0 == 1 do
+    put("fail: fell into elseif")
+  else
+    put("fail: fell into else")
+  end
+
+  print("- test second elseif: ")
+  if 0 == 1 do
+    put("pass")
+  elseif 0 == 1 do
+    put("fail: fell into elseif")
+  elseif 1 == 1 do
+    put("pass")
+  else
+    put("fail: fell into else")
+  end
+end

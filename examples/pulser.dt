@@ -1,0 +1,85 @@
+
+sprite: square
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+
+$board :: 100 i16s
+-- TODO: assign whole array
+
+$toggle :: i16
+$timer  :: i16
+
+fn draw_square(i: i16) do
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/x, i%10 * 10)
+  send(.Screen/y, i/10 * 10)
+
+  send(.Screen/sprite, 67)
+  return
+end
+
+fn erase_square(i: i16) do
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/x, i%10 * 10)
+  send(.Screen/y, i/10 * 10)
+
+  send(.Screen/sprite, 64)
+  return
+end
+
+fn main() do
+  theme #202 #c1c #ece #905
+
+  $toggle = 0
+  $timer = 0
+  send(.Screen/vector, :on_frame)
+end
+
+fn on_frame() do
+  i :: i16
+  i = 0
+
+  if $timer == 0 do
+    while i < 100 do
+      if i%2 == 1 do
+        $board[i] = $toggle
+      else
+        if $toggle == 0 do
+          $board[i] = 1
+        else
+          $board[i] = 0
+        end
+      end
+
+      i = i + 1
+    end
+
+    if $toggle == 1 do
+      $toggle = 0
+    else
+      $toggle = 1
+    end
+    $timer = 60
+  end
+
+  $timer = $timer - 1
+
+  i = 0
+  while i < 100 do
+    -- TODO: this causes a cryptic error if you write
+    --       if $board[i] do
+    -- Since $board[i] returns an i16, if doesn't clean up its stack.
+    if $board[i] == 1 do
+      draw_square(i)
+    else
+      erase_square(i)
+    end
+    i = i + 1
+  end
+end

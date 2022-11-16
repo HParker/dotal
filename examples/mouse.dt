@@ -1,0 +1,78 @@
+sprite: cursor
+10000000
+11000000
+11100000
+11110000
+11111000
+11111100
+00000000
+00000000
+
+$x :: i16
+$y :: i16
+$lastx :: i16
+$lasty :: i16
+$curx :: i16
+$cury :: i16
+
+fn main() do
+  theme #202 #c1c #ece #905
+  send(.Mouse/vector, :mouse)
+end
+
+fn point(x: i16, y: i16) do
+  send(.Screen/x, x)
+  send(.Screen/y, y)
+  send(.Screen/pixel, 2)
+  return
+end
+
+fn cursor_erase(x: i16, y: i16) do
+  send(.Screen/x, x)
+  send(.Screen/y, y)
+  send(.Screen/addr, :sprite_cursor)
+  send(.Screen/sprite, 64)
+  return
+end
+
+fn cursor_draw(x: i16, y: i16) do
+  send(.Screen/addr, :sprite_cursor)
+  send(.Screen/x, x)
+  send(.Screen/y, y)
+
+  send(.Screen/sprite, 67)
+  return
+end
+
+fn mouse() do
+  $x = get(.Mouse/x)
+  $y = get(.Mouse/y)
+  cursor_erase($lastx, $lasty)
+  cursor_draw($x, $y)
+
+  if get(.Mouse/state) == 1 do
+    $curx = $lastx
+    $cury = $lasty
+    while $curx != $x || $cury != $y do
+      point($curx, $cury)
+
+      if $curx != $x do
+        if $curx < $x do
+          $curx = $curx + 1
+        else
+          $curx = $curx - 1
+        end
+      end
+
+      if $cury != $y do
+        if $cury < $y do
+          $cury = $cury + 1
+        else
+          $cury = $cury - 1
+        end
+      end
+    end
+  end
+  $lastx = $x
+  $lasty = $y
+end

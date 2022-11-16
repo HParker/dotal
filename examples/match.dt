@@ -1,0 +1,17 @@
+-- Cool patern matching concepts
+-- - best match / all matchs / first match
+-- - really fast string matchers by making a graph like how lex works
+
+fn main() do
+  x :: i8
+  x = 1
+
+  when x do
+    is 1 do
+      put "hi"
+    end
+    is > 1 do
+
+    end
+  end
+end

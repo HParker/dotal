@@ -1,0 +1,16 @@
+fn foo():i8 do
+  x :: i8
+  y :: i16
+  x = 1
+  y = 2
+
+  if 1 == 1 do
+    return : x
+  end
+  -- This should fail here since it must return an i8 and doesn't
+end
+
+fn main() do
+  x :: i8
+  x = foo()
+end

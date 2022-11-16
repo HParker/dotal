@@ -1,0 +1,22 @@
+-- for all the numbers between 1 and 99
+-- print out "Fizz" if the number is divisible by 3
+-- print out "Buzz" if the number is divisible by 5
+-- if the number is both divisible by 3 and 5 print "fizzbuzz"
+-- in all other cases print the number
+
+fn main() do
+  x :: i16
+  x = 0
+  while x < 101 do
+    x = x + 1
+    if x % 3 == 0 && x % 5 == 0 do
+      put("FizzBuzz")
+    elseif x % 3 == 0 do
+      put("Fizz")
+    elseif x % 5 == 0 do
+      put("Buzz")
+    else
+      put(x)
+    end
+  end
+end

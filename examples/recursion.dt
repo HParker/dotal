@@ -1,0 +1,10 @@
+fn recurse(i: i8) do
+  if i > 0 do
+    put(i)
+    recurse(i - 1)
+  end
+end
+
+fn main() do
+  recurse(10)
+end

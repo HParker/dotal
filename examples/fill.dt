@@ -1,0 +1,48 @@
+sprite: square
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+
+$x :: i16
+$y :: i16
+$width :: i16
+$height :: i16
+$color :: i8
+
+fn main() do
+  theme #202 #c1c #ece #905
+  $x = 4
+  $y = 4
+  $color = 65
+
+  $width = get(.Screen/width)
+  $height = get(.Screen/height)
+
+  send(.Screen/vector, :on_frame)
+end
+
+fn on_frame() do
+  send(.Screen/x, $x)
+  send(.Screen/y, $y)
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/sprite, $color)
+  if $x > $width && $y > $height do
+    $x = 4
+    $y = 4
+    if $color == 65 do
+      $color = 66
+    else
+      $color = 65
+    end
+  elseif $x > $width do
+    $x = 4
+    $y = $y + 16
+  else
+    $x = $x + 16
+  end
+end

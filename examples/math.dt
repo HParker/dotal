@@ -1,0 +1,6 @@
+fn main() do
+  x :: i16
+  x = 1234
+  print("x = ")
+  put(x + 10)
+end

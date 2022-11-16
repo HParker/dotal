@@ -1,0 +1,20 @@
+fn main() do
+  theme #202 #c1c #ece #905
+  a :: i8
+  b :: i16
+  c :: 3 i8s
+  d :: 3 i16s
+  e :: Char
+  f :: 2 Chars
+  a = 1
+  b = 2
+  c[0] = 3
+  d[1] = 4
+  e = 'a
+  put(e)
+
+  f[0] = 'h
+  f[1] = 'i
+  put(f[0])
+  put(f[1])
+end

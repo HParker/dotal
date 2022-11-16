@@ -1,0 +1,163 @@
+DONE
+
+Right now we define them all uniquely as labels
+
+Instead we can save space by storing them as indexes into a space
+in memory equal to the largest number of local variables used in a single function
+
+something like
+
+@local-heap $100
+
+@global-heap $100
+
+
+------
+
+DONE
+
+Because of how the stack works, we need to do a test that when a function ends it balances the stack.
+maybe it is easier to just disallow full statements that end with an unbalanced stack?
+
+:start do
+  10 -- +1 eventual overflow
+end
+
+------
+
+DONE
+
+I think we can get a lot of utility out of allowing functions with the same name, but different types
+
+i.e. i can define
+
+fn foo(x: i8) do
+  return x + 10
+end
+
+fn foo(x: i16) do
+  return x + 1000
+end
+
+but i think type `i` is probably more useful... thinking
+
+------
+
+DONE
+
+Eventually we should move the bits of the tokens we care about to the instruction
+that should help reduce the nasty node->tok->str code that looks a little weird.
+
+------
+
+DONE
+
+We could use a function LUT to give us used/unused errors.
+
+------
+
+DONE
+
+Implicit nodes should report their parents location rather then 0, 0
+
+------
+
+DONE - this now errors
+
+if $board[i] do
+Since $board[i] returns an i16, if doesn't clean up its stack.
+
+------
+
+DONE in template :sweaty-smile:
+
+setup clang
+setup test suite
+
+------
+
+check branches all return the same type of thing
+
+fn foo(): i8 do
+  if 1 do
+    return 0
+  else
+    -- error: failed to return a i8 here or at the end of the function
+  end
+end
+
+-------
+
+IDEA
+
+Feels a little more consistent to make all functions
+
+literally replace types with variables/constants when calling...
+
+fn foo(x: i8): i8 do...
+and
+foo(x: 123): y
+
+Maybe too different?
+
+-----
+
+DONE - validate args and prevent calling methods with returns that are unused
+
+what can i do to make stack underflow and overflow easier to debug?
+can I do static analysis to tell when we are going to get one?
+
+Validating arguments got us a long way already
+
+-----
+
+DONE
+
+right now all local variables need to be globally unique...
+That is really bad design. i should look up a good way to manage local luts,
+and also
+
+maybe functions need to track a `lut_start point` to track how far up a function body can look.
+
+-----
+
+DONE
+
+recursion and reentry are impossible right now since it will clobber previous entries
+
+make this work:
+
+fn foo(i: i8): i8 do
+  if i > 0 do
+    return : i + foo(i - 1)
+  else
+    return : 0
+  end
+end
+
+or this:
+
+fn bar(i: i8): i8 do
+  if i == 1 do
+    return : foo(10 + 1)
+  else
+    return : 0
+  end
+end
+
+fn foo(i: i8) do
+  return : bar(i) + i
+end
+
+fn main() do
+  foo(1)
+end
+
+
+--------------
+
+Alright, there are a lot more things I want, but I want to start looking at things I can prove.
+Basic things are good first.
+
+- When does a variable enter and exit usage?
+- How do I make sure that all return sites return the same thing within a function?

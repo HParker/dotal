@@ -1,0 +1,28 @@
+fn hi(a: i16, b: i16, c: i16) do
+  put(a)
+  put(b)
+  put(c)
+  return
+end
+
+fn frame() do
+  x :: i16
+  x = 1
+  if x == 1 do
+    put("WHATUP")
+  end
+end
+
+fn main() do
+  theme #202 #c1c #ece #905
+  hi(1,2,3)
+
+  x :: i16
+  x = 1
+  if x == 1 do
+    put("WHATUP")
+  end
+
+  put("hello world")
+  send(.Screen/vector, :frame)
+end

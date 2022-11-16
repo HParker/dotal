@@ -1,0 +1,27 @@
+fn main() do
+  x :: i8
+  x = 86
+
+  print_i8(x)
+end
+
+fn print_i8(x: i8) do
+  found :: i8
+  digit :: i8
+
+  digit = x / 100
+  if digit > 0 || found do
+    found = 1
+    send(.Console/write, digit + 48)
+  end
+  x = x - digit * 100
+
+  digit = x / 10
+  if digit > 0 || found do
+    found = 1
+    send(.Console/write, digit + 48)
+  end
+  x = x - digit * 10
+
+  send(.Console/write, x + 48)
+end

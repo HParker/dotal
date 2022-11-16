@@ -1,0 +1,22 @@
+$pitch :: i8
+
+fn mouse() do
+  if get(.Mouse/state) == 1 do
+    $pitch = $pitch + 1
+    send(.Audio0/pitch, $pitch)
+  elseif get(.Mouse/state) == 16 do
+    $pitch = $pitch - 1
+    send(.Audio0/pitch, $pitch)
+  end
+end
+
+fn main() do
+  $pitch = 60
+  send(.Mouse/vector, :mouse)
+
+  send(.Audio0/addr, :sine)
+  send(.Audio0/length, 20)
+  send(.Audio0/adsr, 65535)
+  send(.Audio0/volume, 255)
+  send(.Audio0/pitch, $pitch)
+end

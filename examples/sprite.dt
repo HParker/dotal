@@ -1,0 +1,19 @@
+sprite: square
+11111111
+10000001
+10000001
+10000001
+10000001
+10000001
+10000001
+11111111
+
+fn main() do
+  theme #202 #c1c #ece #905
+
+  send(.Screen/x, 100)
+  send(.Screen/y, 100)
+
+  send(.Screen/addr, :sprite_square)
+  send(.Screen/sprite, 67)
+end

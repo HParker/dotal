@@ -1,0 +1,36 @@
+fn hi(i: i8) do
+  put("i8 hi")
+  return
+end
+
+fn hi(i: i16) do
+  put("i16 hi")
+  return
+end
+
+fn bye(): i8 do
+  return : 123
+end
+
+fn bye(): i16 do
+  return : 1
+end
+
+
+fn main() do
+  x :: i8
+  y :: i16
+  x = 1
+  y = 2
+
+  hi(x)
+  hi(y)
+
+  x = bye()
+  put(x)
+  y = bye()
+  put(y)
+
+  -- TODO: test types that can't be determined
+  -- put(1)
+end

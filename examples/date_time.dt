@@ -1,0 +1,129 @@
+sprite: square
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+11111111
+
+
+$x :: i16
+$y :: i16
+$width :: i16
+$height :: i16
+$second :: i8
+$minute :: i8
+$hour :: i8
+
+fn main() do
+  theme #202 #c1c #ece #905
+  send(.Screen/addr, :sprite_square)
+
+  $x = 0
+  $y = 0
+
+  $width = get(.Screen/width)
+  $height = get(.Screen/height)
+
+  $second = get(.DateTime/second)
+  $minute = get(.DateTime/minute)
+  $hour = get(.DateTime/hour)
+
+  send(.Screen/vector, :on_frame)
+end
+
+fn on_frame() do
+  cur :: i8
+  cur = get(.DateTime/second)
+  if $second != cur do
+    $second = cur
+    $minute = get(.DateTime/minute)
+    $hour = get(.DateTime/hour)
+    draw_seconds()
+    draw_minutes()
+    draw_hours()
+  end
+end
+
+fn draw_seconds() do
+  x :: i16
+  x = 0
+
+  y :: i16
+  y = 0
+
+  send(.Screen/y, y)
+
+  while x < 60 do
+    send(.Screen/x, (x % 15) * 10)
+
+    if (x % 15) == 0 do
+      y = y + 10
+      send(.Screen/y, y)
+    end
+
+    if x < pad($second) do
+      send(.Screen/sprite, 65)
+    else
+      send(.Screen/sprite, 66)
+    end
+    x = x + 1
+  end
+  return
+end
+
+fn draw_minutes() do
+  x :: i16
+  x = 0
+
+  y :: i16
+  y = 64
+
+  send(.Screen/y, y)
+
+  while x < 60 do
+    send(.Screen/x, (x % 15) * 10)
+
+    if (x % 15) == 0 do
+      y = y + 10
+      send(.Screen/y, y)
+    end
+
+    if x < pad($minute) do
+      send(.Screen/sprite, 65)
+    else
+      send(.Screen/sprite, 66)
+    end
+    x = x + 1
+  end
+  return
+end
+
+fn draw_hours() do
+  x :: i16
+  x = 0
+
+  y :: i16
+  y = 120
+
+  send(.Screen/y, y)
+
+  while x < 24 do
+    send(.Screen/x, (x % 12) * 10)
+
+    if (x % 12) == 0 do
+      y = y + 10
+      send(.Screen/y, y)
+    end
+
+    if x < pad($hour) do
+      send(.Screen/sprite, 65)
+    else
+      send(.Screen/sprite, 66)
+    end
+    x = x + 1
+  end
+  return
+end
