@@ -140,7 +140,7 @@ void emit_self(Program *prog, Node *node) {
       EMIT("    ;local-heap #%04x ADD2 STA ( assign local i8 %s )\n", node->loc, node->tok->str);
       break;
     case RET_I16:
-      EMIT("    ;local-heap #%04x ADD2 STA2 ( assign local %s )\n", node->loc,node->tok->str);
+      EMIT("    ;local-heap #%04x ADD2 STA2 ( assign local %s )\n", node->loc, node->tok->str);
       break;
     default:
       printError(prog, node, "********* local assign only supports i8 and i16 implement it!");
@@ -655,21 +655,23 @@ void build_instruction_list(Program *prog, Node *node) {
     EMIT("@local-heap $%i\n", prog->local_lut.all_time_max);
   }
 
-  EMIT("@sine\n");
-  EMIT("  8083 8689 8c8f 9295 989b 9ea1 a4a7 aaad\n");
-  EMIT("  b0b3 b6b9 bbbe c1c3 c6c9 cbce d0d2 d5d7\n");
-  EMIT("  d9db dee0 e2e4 e6e7 e9eb ecee f0f1 f2f4\n");
-  EMIT("  f5f6 f7f8 f9fa fbfb fcfd fdfe fefe fefe\n");
-  EMIT("  fffe fefe fefe fdfd fcfb fbfa f9f8 f7f6\n");
-  EMIT("  f5f4 f2f1 f0ee eceb e9e7 e6e4 e2e0 dedb\n");
-  EMIT("  d9d7 d5d2 d0ce cbc9 c6c3 c1be bbb9 b6b3\n");
-  EMIT("  b0ad aaa7 a4a1 9e9b 9895 928f 8c89 8683\n");
-  EMIT("  807d 7a77 7471 6e6b 6865 625f 5c59 5653\n");
-  EMIT("  504d 4a47 4542 3f3d 3a37 3532 302e 2b29\n");
-  EMIT("  2725 2220 1e1c 1a19 1715 1412 100f 0e0c\n");
-  EMIT("  0b0a 0908 0706 0505 0403 0302 0202 0202\n");
-  EMIT("  0102 0202 0202 0303 0405 0506 0708 090a\n");
-  EMIT("  0b0c 0e0f 1012 1415 1719 1a1c 1e20 2225\n");
-  EMIT("  2729 2b2e 3032 3537 3a3d 3f42 4547 4a4d\n");
-  EMIT("  5053 5659 5c5f 6265 686b 6e71 7477 7a7d\n");
+  if (prog->used_sine) {
+    EMIT("@sine\n");
+    EMIT("  8083 8689 8c8f 9295 989b 9ea1 a4a7 aaad\n");
+    EMIT("  b0b3 b6b9 bbbe c1c3 c6c9 cbce d0d2 d5d7\n");
+    EMIT("  d9db dee0 e2e4 e6e7 e9eb ecee f0f1 f2f4\n");
+    EMIT("  f5f6 f7f8 f9fa fbfb fcfd fdfe fefe fefe\n");
+    EMIT("  fffe fefe fefe fdfd fcfb fbfa f9f8 f7f6\n");
+    EMIT("  f5f4 f2f1 f0ee eceb e9e7 e6e4 e2e0 dedb\n");
+    EMIT("  d9d7 d5d2 d0ce cbc9 c6c3 c1be bbb9 b6b3\n");
+    EMIT("  b0ad aaa7 a4a1 9e9b 9895 928f 8c89 8683\n");
+    EMIT("  807d 7a77 7471 6e6b 6865 625f 5c59 5653\n");
+    EMIT("  504d 4a47 4542 3f3d 3a37 3532 302e 2b29\n");
+    EMIT("  2725 2220 1e1c 1a19 1715 1412 100f 0e0c\n");
+    EMIT("  0b0a 0908 0706 0505 0403 0302 0202 0202\n");
+    EMIT("  0102 0202 0202 0303 0405 0506 0708 090a\n");
+    EMIT("  0b0c 0e0f 1012 1415 1719 1a1c 1e20 2225\n");
+    EMIT("  2729 2b2e 3032 3537 3a3d 3f42 4547 4a4d\n");
+    EMIT("  5053 5659 5c5f 6265 686b 6e71 7477 7a7d\n");
+  }
 }

@@ -250,6 +250,9 @@ statement(node) ::= SEND(p) OPEN_PAREN location(loc) COMMA expression(expr) CLOS
     expr->ret = loc->ret;
   }
 
+  if (strcmp(expr->tok->str, "sine") == 0) {
+    prog->used_sine = 1;
+  }
   progAddChild(node, expr);
   progAddChild(node, loc);
 }

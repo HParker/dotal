@@ -41,6 +41,7 @@ typedef struct Program {
   int used_datetime;
   int used_print;
   int used_audio;
+  int used_sine;
 
   void *scanner;
   void *parser;

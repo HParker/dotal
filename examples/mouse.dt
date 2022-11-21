@@ -24,6 +24,11 @@ fn point(x: i16, y: i16) do
   send(.Screen/x, x)
   send(.Screen/y, y)
   send(.Screen/pixel, 2)
+
+  send(.Screen/x, x + 10)
+  send(.Screen/y, y + 10)
+  send(.Screen/pixel, 1)
+
   return
 end
 

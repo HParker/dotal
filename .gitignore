@@ -1,0 +1,8 @@
+*.o
+lang
+lemon
+parser.out
+parser.c
+parser.h
+scanner.c
+scanner.h

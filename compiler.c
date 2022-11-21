@@ -229,6 +229,7 @@ void setupCompiler(Program * prog) {
   prog->used_datetime = 0;
   prog->used_print = 0;
   prog->used_audio = 0;
+  prog->used_sine = 0;
 
   prog->root = progEmptyNode(prog->id++, INSTR_ROOT, RET_VOID);
 
@@ -263,6 +264,7 @@ void resetCompiler(Program * prog) {
   prog->used_datetime = 0;
   prog->used_print = 0;
   prog->used_audio = 0;
+  prog->used_sine = 0;
 
   prog->data.line = 1;
   prog->data.col = 1;
