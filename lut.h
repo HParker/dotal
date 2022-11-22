@@ -7,6 +7,7 @@ typedef struct Lut {
   int size;
   int index;
   int max;
+  int stack_slots;
   int all_time_max;
   int search_offset;
   ReturnType *types; // TODO: rename to rets

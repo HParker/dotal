@@ -113,6 +113,14 @@ void emit_self(Program *prog, Node *node) {
       printError(prog, node, "Function not found");
     } else {
       EMIT("  ;%s-%i JSR2\n", prog->function_lut.names[id], id);
+
+      for (int i = 0; i < prog->function_lut.arg_count[id] && i < MAX_STACK_SLOTS; i++) {
+        if (prog->function_lut.args[id][i] == RET_I16) {
+          EMIT("POP2 ( removing i16 stack arg )\n");
+        } else {
+          EMIT("POP ( removing  i8 stack arg  )\n");
+        }
+      }
     }
     break;
   }
@@ -122,6 +130,27 @@ void emit_self(Program *prog, Node *node) {
     // TODO: we might not actually need to keep these in the tree?
     break;
   case INSTR_LOCAL_READ: {
+    if (node->loc < 0) {
+      if (node->loc == -1) {
+        if (node->ret == RET_I8 || node->ret == RET_CHAR) {
+          EMIT("    DUP ( read local from stack i8 %s )\n", node->tok->str);
+        } else if (node->ret == RET_I16) {
+          EMIT("    DUP2 ( read local from stack %s )\n", node->tok->str);
+        } else {
+          fprintf(stderr, "************************* error failed to emit local read\n");
+        }
+      } else if (node->loc == -2) {
+        if (node->ret == RET_I8 || node->ret == RET_CHAR) {
+          EMIT("    OVR ( read local from stack i8 %s )\n", node->tok->str);
+        } else if (node->ret == RET_I16) {
+          EMIT("    OVR2 ( read local from stack %s )\n", node->tok->str);
+        } else {
+          fprintf(stderr, "************************* error failed to emit local read\n");
+        }
+      }
+      break;
+    }
+
     if (node->ret == RET_I8 || node->ret == RET_CHAR) {
       EMIT("    ;local-heap #%04x ADD2 LDA ( read local %s )\n", node->loc, node->tok->str);
     } else if (node->ret == RET_I16) {
@@ -132,8 +161,10 @@ void emit_self(Program *prog, Node *node) {
     break;
   }
   case INSTR_LOCAL_ASSIGN: {
-    // TODO: blah it isn't safe to use lutFind here
-    //       gsince the search offset is not updated...
+    if (node->loc < 0) {
+      // Skip when we saved the local on the stack only
+      break;
+    }
     switch (node->ret) {
     case RET_CHAR:
     case RET_I8:
@@ -550,11 +581,17 @@ void build_helper(Program *prog, Node *node) {
       build_helper(prog, node->children[0]->children[i]);
     }
 
+    int returned = 0;
     for (int i = 1; i < node->children_index; i++) {
+      if (node->children[i]->type == INSTR_RETURN) {
+        returned = 1;
+      }
       build_helper(prog, node->children[i]);
     }
 
-    EMIT("BRK ( end of function )\n");
+    if (returned == 0) {
+      EMIT("BRK ( end of function )\n"); // TODO: skip BRK if we always return
+    }
     return;
   }
 

@@ -5,6 +5,8 @@
 #include "ast.h"
 #include "lut.h"
 
+#define MAX_STACK_SLOTS 2
+
 typedef struct ExtraData {
   char *filename;
   int line;

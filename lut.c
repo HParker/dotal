@@ -10,6 +10,7 @@
 void setupLut(Lut *lut, int size) {
   lut->index = 0;
   lut->max = 0;
+  lut->stack_slots = 0;
   lut->all_time_max = 0;
   lut->search_offset = 0;
   lut->size = size;
@@ -60,7 +61,7 @@ int lutFind(Lut *lut, Node *node) {
 
   int start = 0;
   if (lut->search_offset > 0) {
-    start = lut->search_offset - 1;
+    start = lut->search_offset;
   }
 
   int found = -1;
@@ -80,6 +81,16 @@ int lutInsert(Lut *lut, Node *node, ReturnType t) {
   int id = lutFind(lut, node);
   if (id != -1) {
     fprintf(stderr, "Warn inserting already initialized variable\n");
+    return id;
+  }
+
+  if (lut->stack_slots > 0) {
+    lut->names[lut->index] = node->tok->str;
+    lut->types[lut->index] = t;
+    lut->locs[lut->index] = lut->stack_slots * -1;
+    lut->stack_slots--;
+
+    id = lut->index++;
     return id;
   }
 

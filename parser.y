@@ -154,6 +154,7 @@ function(node) ::= FN IDENTIFIER(fn_name) OPEN_PAREN argument_definitions(arg) C
     prog->local_lut.all_time_max = prog->local_lut.max;
   }
   prog->local_lut.search_offset = prog->local_lut.index;
+  prog->local_lut.stack_slots = MAX_STACK_SLOTS;
 }
 
 

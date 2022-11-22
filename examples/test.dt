@@ -1,12 +1,46 @@
-fn frame() do
-  x :: i16
-  x = 1
-  if x do
-    put("wow")
-  end
+fn arg_stress(a: i8, b: i8, c: i8, d: i8, e: i8, f: i8) do
+  put(f)
+  put(e)
+  put(d)
+  put(c)
+  put(b)
+  put(a)
+  -- again backwards
+  put(a)
+  put(b)
+  put(c)
+  put(d)
+  put(e)
+  put(f)
+  return
 end
+
+fn arg_relax(a: i8, b: i8, c: i8) do
+  put(c)
+  put(b)
+  put(a)
+  -- again backwards
+  put(a)
+  put(b)
+  put(c)
+  return
+end
+
+fn arg_smellaxe(a: i8, b: i8, c: i8) do
+  put(c)
+  put(b)
+  put(a)
+  -- again backwards
+  put(a)
+  put(b)
+  put(c)
+  return
+end
+
 
 fn main() do
   theme #202 #c1c #ece #905
-  send(.Screen/vector, :frame)
+  arg_relax(1,2,3)
+  arg_smellaxe(1,2,3)
+  arg_stress(1,2,3,4,5,6)
 end

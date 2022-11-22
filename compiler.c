@@ -219,6 +219,7 @@ void setupCompiler(Program * prog) {
   prog->strings.nodes = malloc(sizeof(Node *) * prog->strings.capacity);
 
   setupLut(&prog->local_lut, 10);
+  prog->local_lut.stack_slots = MAX_STACK_SLOTS;
   setupLut(&prog->global_lut, 10);
   setupLut(&prog->function_lut, 10);
 
